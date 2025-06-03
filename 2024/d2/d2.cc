@@ -12,7 +12,6 @@ int main()
 
     std::string text_block{};
     std::stringstream ss{};
-    int curr{};
     int total{};
 
     while (std::getline(fs, text_block))
@@ -24,6 +23,7 @@ int main()
         bool first{true};
         bool second{false};
         bool asc{};
+        int curr{};
         int prev{};
         while (ss >> curr)
         {
@@ -36,36 +36,18 @@ int main()
                 prev = curr;
                 continue;
             }
+
             if (second)
             {
                 second = false;
                 asc = (prev < curr) ? true : false;
             }
 
-            if (prev == curr)
-            {
-                good = false;
-                continue;
-            }
             if (prev < curr)
             {
                 if (asc)
                 {
-                    if ((curr - prev) > 3) good = false;
-                    prev = curr;
-                    continue;
-                }
-                else
-                {
-                    good = false;
-                    continue;
-                }
-            }
-            if (prev > curr)
-            {
-                if (!asc)
-                {
-                    if ((prev - curr) > 3) good = false;
+                    if (((curr - prev ) > 3) || ((curr-prev) < 1)) good = false;
                     prev = curr;
                     continue;
                 }
@@ -76,6 +58,22 @@ int main()
                 }
             }
 
+            if (prev > curr)
+            {
+                if (!asc)
+                {
+                    if (((prev - curr) > 3) || ((prev - curr) < 1)) good = false;
+                    prev = curr;
+                    continue;
+                }
+                else
+                {
+                    good = false;
+                    continue;
+                }
+            }
+
+            good = false;
         }
         if (good) total++;
     }
